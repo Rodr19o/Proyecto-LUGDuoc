@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id              String     @id @default(uuid())
+  nombre          String
+  email           String     @unique
+  edad            Int
+  password        String
+  esDuoc          Boolean    @default(false)
+  descuentoDuoc   Boolean    @default(false)
+  puntosLevelUp   Int        @default(0)
+  nivel           Int        @default(1)
+  referidoPorId   String?
+  referidoPor     Usuario?   @relation("Referidos", fields: [referidoPorId], references: [id])
+  referidos       Usuario[]  @relation("Referidos")
+  carrito         Carrito[]
+  ordenes         Orden[]
+  reseñas         Reseña[]
+  creadoEn        DateTime   @default(now())
+}
+
+model Categoria {
+  id        Int       @id @default(autoincrement())
+  nombre    String
+  productos Producto[]
+}
+
+model Producto {
+  id           String     @id @default(uuid())
+  nombre       String
+  descripcion  String
+  precio       Float
+  imagenUrl    String
+  stock        Int
+  activo       Boolean    @default(true)
+  categoriaId  Int
+  categoria    Categoria  @relation(fields: [categoriaId], references: [id])
+  enCarritos   Carrito[]
+  enOrdenes    DetalleOrden[]
+  reseñas      Reseña[]
+}
+
+model Carrito {
+  id          String    @id @default(uuid())
+  usuarioId   String
+  productoId  String
+  cantidad    Int
+  creadoEn    DateTime  @default(now())
+
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id])
+  producto    Producto  @relation(fields: [productoId], references: [id])
+
+}
+
+model Orden {
+  id         String         @id @default(uuid())
+  usuarioId  String
+  total      Float
+  estado     String         // pendiente, pagado, enviado...
+  creadoEn   DateTime       @default(now())
+
+  usuario    Usuario        @relation(fields: [usuarioId], references: [id])
+  detalles   DetalleOrden[]
+}
+
+model DetalleOrden {
+  id          String    @id @default(uuid())
+  ordenId     String
+  productoId  String
+  cantidad    Int
+  precioUnit  Float
+
+  orden       Orden     @relation(fields: [ordenId], references: [id])
+  producto    Producto  @relation(fields: [productoId], references: [id])
+}
+
+model Reseña {
+  id           String    @id @default(uuid())
+  productoId   String
+  usuarioId    String
+  calificacion Int       // de 1 a 5
+  comentario   String
+  creadoEn     DateTime  @default(now())
+
+  producto     Producto  @relation(fields: [productoId], references: [id])
+  usuario      Usuario   @relation(fields: [usuarioId], references: [id])
+}
+
+model Evento {
+  id         String    @id @default(uuid())
+  titulo     String
+  ubicacion  String
+  fecha      DateTime
+  puntos     Int       @default(0)
+}
