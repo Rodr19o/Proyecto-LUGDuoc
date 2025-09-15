@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from "../../../db";
+import { prisma } from "@/lib/prisma"
 
 type Params = {
   params: {

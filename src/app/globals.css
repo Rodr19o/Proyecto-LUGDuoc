@@ -1,26 +1,151 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Updated color tokens for Level-Up Gamer gaming theme */
+  --background: #000000; /* Black background */
+  --foreground: #ffffff; /* White text */
+  --card: #111111; /* Very dark gray card background */
+  --card-foreground: #ffffff; /* White card text */
+  --popover: #111111; /* Very dark gray popover background */
+  --popover-foreground: #ffffff; /* White popover text */
+  --primary: #2e524d; /* Electric blue primary */
+  --primary-foreground: #ffffff; /* White text on primary */
+  --secondary: #39ff14; /* Neon green secondary */
+  --secondary-foreground: #000000; /* Black text on neon green */
+  --muted: #222222; /* Dark muted background */
+  --muted-foreground: #d3d3d3; /* Light gray muted text */
+  --accent: #39ff14; /* Neon green accent */
+  --accent-foreground: #000000; /* Black text on accent */
+  --destructive: #ff4444; /* Red for errors */
+  --destructive-foreground: #ffffff; /* White text on destructive */
+  --border: #333333; /* Dark gray borders */
+  --input: #111111; /* Very dark input background */
+  --ring: #2e524d; /* Electric blue focus ring */
+  --chart-1: #2e524d; /* Electric blue chart color */
+  --chart-2: #39ff14; /* Neon green chart color */
+  --chart-3: #d3d3d3; /* Light gray chart color */
+  --chart-4: #ff6b35; /* Orange chart color */
+  --chart-5: #9b59b6; /* Purple chart color */
+  --radius: 0.5rem; /* Rounded corners */
+  --sidebar: #111111; /* Dark sidebar background */
+  --sidebar-foreground: #ffffff; /* White sidebar text */
+  --sidebar-primary: #2e524d; /* Electric blue sidebar primary */
+  --sidebar-primary-foreground: #ffffff; /* White text on primary sidebar */
+  --sidebar-accent: #39ff14; /* Neon green sidebar accent */
+  --sidebar-accent-foreground: #000000; /* Black text on sidebar accent */
+  --sidebar-border: #333333; /* Dark sidebar border */
+  --sidebar-ring: #2e524d; /* Electric blue sidebar focus ring */
+}
+
+.dark {
+  /* Dark mode colors for gaming aesthetic */
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #111111;
+  --card-foreground: #ffffff;
+  --popover: #111111;
+  --popover-foreground: #ffffff;
+  --primary: #2e524d;
+  --primary-foreground: #ffffff;
+  --secondary: #39ff14;
+  --secondary-foreground: #000000;
+  --muted: #222222;
+  --muted-foreground: #d3d3d3;
+  --accent: #39ff14;
+  --accent-foreground: #000000;
+  --destructive: #ff4444;
+  --destructive-foreground: #ffffff;
+  --border: #333333;
+  --input: #111111;
+  --ring: #2e524d;
+  --sidebar: #111111;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #2e524d;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #39ff14;
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: #333333;
+  --sidebar-ring: #2e524d;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Fixed custom gaming-themed styles to use CSS variables instead of theme() function */
+.gamer-gradient {
+  background: linear-gradient(135deg, #2e524d 0%, #39ff14 100%);
+  color: #ffffff;
+}
+
+.gamer-text-gradient {
+  background: linear-gradient(135deg, #2e524d 0%, #39ff14 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #2e524d; /* Fallback for browsers that don't support background-clip */
+}
+
+.level-up-shadow {
+  box-shadow: 0 0 20px #2e524d;
+}
+
+.gaming-card {
+  transition: all 0.3s ease;
+  border: 1px solid #333333;
+}
+
+.gaming-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(30, 144, 255, 0.15);
+  border-color: #2e524d;
 }
